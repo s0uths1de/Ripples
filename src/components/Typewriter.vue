@@ -88,7 +88,7 @@ body {
 }
 
 #text{
-  padding: 0 18px 0 28px;
+  padding: 0 16px 0 26px;
 }
 
 </style>

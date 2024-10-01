@@ -4,10 +4,8 @@
                 style=" display:block;position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100"/>
         <img style="width: 100%; height: 100%;" :src="imgUrl" alt="Scenic Image"/>
     <div class="introduce">
-      <span
-          style=" display: block; width: 280px;color:white;font-size: 18px;">
-      涟 漪 - 一 个 没什 么 用 的 网 页
-      </span>
+      <Typewriter v-if="initialText" :text="ripples"
+                  style="color:white;font-size: 18px"/>
     </div>
   </div>
 
@@ -21,18 +19,22 @@
       赣ICP备2024033384号
     </a>
   </div>
+  <MusicPlayer :musicUrl="musicUrl" />
 </template>
 
 <script setup>
 import {ref, onMounted} from 'vue';
 import Typewriter from './components/Typewriter.vue';
+import MusicPlayer from "@/components/MusicPlayer.vue";
 import axios from 'axios';
 
-const imgUrl = 'https://api.dujin.org/pic/fengjing';
+const imgUrl = 'https://tu.ltyuanfang.cn/api/fengjing.php';
 const sentenceUrl = 'https://tenapi.cn/v2/yiyan';
+const musicUrl = 'http://music.163.com/song/media/outer/url?id=756141.mp3'
 
 const sentence = ref('');
 const initialText = ref('');
+const ripples = ref('涟 漪 - 一 个 没什 么 用 的 网 页')
 
 onMounted(() => {
   axios({
@@ -91,11 +93,4 @@ async function clickCopy() {
   height: 50px;
   text-align: center
 }
-
-.introduce :hover {
-  background: rgba(255, 255, 255, .5);
-  backdrop-filter: blur(3px);
-  border-radius: 15px;
-}
-
 </style>
