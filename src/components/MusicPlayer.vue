@@ -13,6 +13,7 @@
           @input="changeVolume"
           @mouseenter="startScroll"
           @mouseleave="stopScroll"
+          @wheel="onScroll"
           min="0"
           max="1"
           step="0.01"
@@ -100,6 +101,7 @@ export default {
     }
 
     const onScroll = (event) => {
+      event.preventDefault();
       if (event.deltaY <0){
         volume.value = Math.min(1, volume.value + 0.01);
       }else if (event.deltaY>0){
@@ -145,7 +147,8 @@ export default {
       position,
       startDrag,
       stopScroll,
-      startScroll
+      startScroll,
+      onScroll
     };
   },
 };

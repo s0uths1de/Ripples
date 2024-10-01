@@ -28,9 +28,22 @@ import Typewriter from './components/Typewriter.vue';
 import MusicPlayer from "@/components/MusicPlayer.vue";
 import axios from 'axios';
 
+const musicUrlArr = ref([{
+  name:'万葉の恋 - Jusqu\'à Grand-Père',
+  url:'http://music.163.com/song/media/outer/url?id=756141.mp3'
+},{
+  name:'夢桜 - Jusqu\'à Grand-Père',
+  url:'http://music.163.com/song/media/outer/url?id=756162.mp3'
+},{
+  name:'Auspicious sign - Jusqu\'à Grand-Père',
+  url:'http://music.163.com/song/media/outer/url?id=2066716812.mp3'
+}
+])
+
 const imgUrl = 'https://tu.ltyuanfang.cn/api/fengjing.php';
 const sentenceUrl = 'https://tenapi.cn/v2/yiyan';
-const musicUrl = 'http://music.163.com/song/media/outer/url?id=756141.mp3'
+const musicUrl = musicUrlArr.value[ Math.floor(Math.random() * 3)].url
+
 
 const sentence = ref('');
 const initialText = ref('');
