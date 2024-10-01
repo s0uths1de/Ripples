@@ -41,6 +41,7 @@ export default {
     const currentTime = ref(0);
     const duration = ref(0);
 
+
     // 拖动位置管理
     const position = ref({ x: 20, y: 20 }); // 初始化位置
     let isDragging = false; // 是否正在拖动
