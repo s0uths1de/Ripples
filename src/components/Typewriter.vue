@@ -1,5 +1,5 @@
 <template>
-  <div id="text" class="centered-text">
+  <div id="text" class="centered-text" :class="{'centered':isHover}">
     <span class="textInner">{{ textInner }}</span>
     <span class="typed-cursor typed-cursor--blink" aria-hidden="true">&nbsp;_</span>
   </div>
@@ -8,16 +8,19 @@
 <script setup>
 import {ref, onMounted, onBeforeUnmount} from 'vue';
 
-// 定义 props
 const props = defineProps({
   text: {
     type: String,
     default: ''
+  },
+  isHover:{
+    type: Boolean,
+    default: true
   }
 });
 
 const textInner = ref('');
-let intervalId = null; // 用于存储定时器 ID
+let intervalId = null;
 
 const typewriterEffect = (text) => {
   let charIndex = 0;
@@ -79,7 +82,7 @@ body {
   text-align: center;
 }
 
-.centered-text:hover {
+.centered:hover {
   background: rgba(255, 255, 255, .5);
   backdrop-filter: blur(3px);
   border-radius: 15px;

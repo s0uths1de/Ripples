@@ -38,15 +38,14 @@ export default {
   setup(props) {
     const audioElement = ref(new Audio());
     const isPlaying = ref(false);
-    const volume = ref(0.3); // 默认音量
+    const volume = ref(0.2); // 默认音量
     const currentTime = ref(0);
     const duration = ref(0);
 
-
     // 拖动位置管理
-    const position = ref({ x: 20, y: 20 }); // 初始化位置
+    const position = ref({x: 20, y: 20}); // 初始化位置
     let isDragging = false; // 是否正在拖动
-    let offset = { x: 0, y: 0 }; // 鼠标偏移量
+    let offset = {x: 0, y: 0}; // 鼠标偏移量
 
     const togglePlay = () => {
       if (audioElement.value) {
@@ -69,6 +68,12 @@ export default {
       if (audioElement.value) {
         currentTime.value = audioElement.value.currentTime;
         duration.value = audioElement.value.duration;
+
+        // 检查播放是否已完成
+        if (currentTime.value >= duration.value) {
+          isPlaying.value = false; // 播放结束，更新状态
+          audioElement.value.pause(); // 确保音频暂停
+        }
       }
     };
 
@@ -80,7 +85,6 @@ export default {
         currentTime.value = 0;
       }
     });
-
 
     onMounted(() => {
       if (audioElement.value) {
@@ -97,25 +101,24 @@ export default {
     };
 
     const startScroll = () => {
-      window.addEventListener('wheel',onScroll)
-    }
+      window.addEventListener('wheel', onScroll);
+    };
 
     const onScroll = (event) => {
       event.preventDefault();
-      if (event.deltaY <0){
+      if (event.deltaY < 0) {
         volume.value = Math.min(1, volume.value + 0.01);
-      }else if (event.deltaY>0){
+      } else if (event.deltaY > 0) {
         volume.value = Math.max(0, volume.value - 0.01);
       }
       if (audioElement.value) {
         audioElement.value.volume = volume.value;
       }
-    }
+    };
 
-    const stopScroll =()=>{
-      window.removeEventListener('wheel',onScroll)
-
-    }
+    const stopScroll = () => {
+      window.removeEventListener('wheel', onScroll);
+    };
 
     const onDrag = (event) => {
       if (isDragging) {
@@ -123,10 +126,10 @@ export default {
         let newY = event.clientY - offset.y;
 
         // 限制组件不超出窗口边界
-        newX = Math.max(0, Math.min(window.innerWidth - 160, newX)); // 200 是组件的宽度
+        newX = Math.max(0, Math.min(window.innerWidth - 190, newX)); // 200 是组件的宽度
         newY = Math.max(0, Math.min(window.innerHeight - 60, newY)); // 100 是组件的高度
 
-        position.value = { x: newX, y: newY };
+        position.value = {x: newX, y: newY};
       }
     };
 
@@ -148,7 +151,8 @@ export default {
       startDrag,
       stopScroll,
       startScroll,
-      onScroll
+      onScroll,
+      updateCurrentTime
     };
   },
 };
@@ -159,7 +163,7 @@ export default {
   position: fixed;
   width: 160px; /* 组件的固定宽度 */
   height: 20px; /* 组件的固定高度 */
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.4);
   padding: 15px;
   border-radius: 10px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -169,6 +173,9 @@ export default {
   cursor: move;
 }
 
+.music-player:hover{
+  background-color: rgba(255, 255, 255, 0.5);
+}
 .controls {
   display: flex;
   align-items: center;
@@ -179,6 +186,7 @@ button {
   padding: 6px 8px;
   border: none;
   background-color: #42b983;
+  opacity: 0.7;
   color: white;
   cursor: pointer;
   border-radius: 5px;
@@ -198,6 +206,7 @@ input[type="range"] {
   appearance: none; /* 可自定义样式 */
   height: 5px;
   background: #ddd;
+  opacity: 0.5;
   border-radius: 5px;
 }
 
@@ -208,6 +217,14 @@ input[type="range"] {
   height: 15px;
   border-radius: 50%;
   background: #42b983;
+  opacity: 0.5;
   cursor: pointer;
+}
+
+.volume-slider:hover{
+  opacity: 0.7;
+}
+.volume-slider::-webkit-slider-thumb:hover {
+  opacity: 0.7;
 }
 </style>
