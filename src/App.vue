@@ -59,15 +59,18 @@ const musicUrlArr = ref([{
 }
 ])
 
+const title = 'Ripples alpha 0.4.1'
+
 const imgUrl = 'https://tu.ltyuanfang.cn/api/fengjing.php';
 const sentenceUrl = 'https://tenapi.cn/v2/yiyan';
-const musicUrl = musicUrlArr.value[Math.floor(Math.random() * 3)].url
+const musicUrl = musicUrlArr.value[Math.floor(Math.random() * musicUrlArr.value.length)].url
 
 const sentence = ref('');
 const initialText = ref('');
 const ripples = ref('涟 漪 - 一 个 没 什 么 用 的 网 页 ')
 
 onMounted(() => {
+  document.title = title
   axios({
     method: 'get',
     url: sentenceUrl,
